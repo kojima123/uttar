@@ -21,3 +21,9 @@
 
 ## Bug Fixes
 - [x] Fix X post template - {part} variable not being replaced with actual body part name (Test Post now uses sample value)
+
+## New Features
+- [x] Add light/dark theme toggle
+- [x] Create light mode color scheme (bright and friendly)
+- [x] Set light mode as default
+- [x] Add theme switcher in settings

@@ -47,13 +47,60 @@
 
 /* 
   Design Concept: Serene Flow
-  - Base: Midnight Blue / Charcoal Grey
-  - Accent: Pale Gold / Silver White
-  - Mood: Calm, Intimate, Quiet
+  Light Mode: Soft, Warm, Welcoming
+  Dark Mode: Calm, Intimate, Quiet
 */
 
-:root {
-  /* Dark theme by default for this concept */
+:root, .light {
+  /* Light theme - Soft and warm */
+  --background: oklch(0.98 0.01 85); /* Soft Cream White */
+  --foreground: oklch(0.25 0.02 260); /* Deep Blue-Grey */
+  
+  --card: oklch(0.96 0.01 85);
+  --card-foreground: oklch(0.25 0.02 260);
+  
+  --popover: oklch(0.96 0.01 85);
+  --popover-foreground: oklch(0.25 0.02 260);
+  
+  --primary: oklch(0.65 0.12 45); /* Warm Coral */
+  --primary-foreground: oklch(0.98 0.01 85);
+  
+  --secondary: oklch(0.92 0.02 85);
+  --secondary-foreground: oklch(0.25 0.02 260);
+  
+  --muted: oklch(0.92 0.02 85);
+  --muted-foreground: oklch(0.5 0.02 260);
+  
+  --accent: oklch(0.92 0.02 85);
+  --accent-foreground: oklch(0.65 0.12 45);
+  
+  --destructive: oklch(0.55 0.18 25);
+  --destructive-foreground: oklch(0.98 0.01 85);
+  
+  --border: oklch(0.88 0.02 85);
+  --input: oklch(0.88 0.02 85);
+  --ring: oklch(0.65 0.12 45);
+  
+  --radius: 1rem;
+  
+  --chart-1: oklch(0.65 0.12 45);
+  --chart-2: oklch(0.7 0.1 200);
+  --chart-3: oklch(0.6 0.1 150);
+  --chart-4: oklch(0.7 0.1 100);
+  --chart-5: oklch(0.65 0.1 60);
+  
+  --sidebar: oklch(0.96 0.01 85);
+  --sidebar-foreground: oklch(0.25 0.02 260);
+  --sidebar-primary: oklch(0.65 0.12 45);
+  --sidebar-primary-foreground: oklch(0.98 0.01 85);
+  --sidebar-accent: oklch(0.92 0.02 85);
+  --sidebar-accent-foreground: oklch(0.65 0.12 45);
+  --sidebar-border: oklch(0.88 0.02 85);
+  --sidebar-ring: oklch(0.65 0.12 45);
+}
+
+.dark {
+  /* Dark theme - Calm and intimate */
   --background: oklch(0.15 0.02 260); /* Deep Midnight Blue */
   --foreground: oklch(0.92 0.01 90); /* Pale Silver White */
   
@@ -82,8 +129,6 @@
   --input: oklch(0.3 0.02 260);
   --ring: oklch(0.85 0.1 85);
   
-  --radius: 1rem;
-  
   --chart-1: oklch(0.85 0.1 85);
   --chart-2: oklch(0.7 0.1 260);
   --chart-3: oklch(0.6 0.1 260);
@@ -100,123 +145,89 @@
   --sidebar-ring: oklch(0.85 0.1 85);
 }
 
-.dark {
-  /* Same as root since we are dark-first */
-  --background: oklch(0.15 0.02 260);
-  --foreground: oklch(0.92 0.01 90);
-  --card: oklch(0.18 0.02 260);
-  --card-foreground: oklch(0.92 0.01 90);
-  --popover: oklch(0.18 0.02 260);
-  --popover-foreground: oklch(0.92 0.01 90);
-  --primary: oklch(0.85 0.1 85);
-  --primary-foreground: oklch(0.15 0.02 260);
-  --secondary: oklch(0.25 0.03 260);
-  --secondary-foreground: oklch(0.92 0.01 90);
-  --muted: oklch(0.25 0.03 260);
-  --muted-foreground: oklch(0.7 0.02 260);
-  --accent: oklch(0.25 0.03 260);
-  --accent-foreground: oklch(0.95 0.05 85);
-  --destructive: oklch(0.6 0.15 20);
-  --destructive-foreground: oklch(0.95 0 0);
-  --border: oklch(0.3 0.02 260);
-  --input: oklch(0.3 0.02 260);
-  --ring: oklch(0.85 0.1 85);
-  --sidebar: oklch(0.15 0.02 260);
-  --sidebar-foreground: oklch(0.92 0.01 90);
-  --sidebar-primary: oklch(0.85 0.1 85);
-  --sidebar-primary-foreground: oklch(0.15 0.02 260);
-  --sidebar-accent: oklch(0.25 0.03 260);
-  --sidebar-accent-foreground: oklch(0.95 0.05 85);
-  --sidebar-border: oklch(0.3 0.02 260);
-  --sidebar-ring: oklch(0.85 0.1 85);
-}
-
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    @apply border-border;
   }
   body {
-    @apply bg-background text-foreground font-sans antialiased;
-    background-image: url('/images/background_texture.jpg');
-    background-size: cover;
-    background-position: center;
-    background-attachment: fixed;
-    background-blend-mode: overlay;
-  }
-  h1, h2, h3, h4, h5, h6 {
-    @apply font-serif font-medium tracking-wide;
-  }
-  button:not(:disabled),
-  [role="button"]:not([aria-disabled="true"]),
-  [type="button"]:not(:disabled),
-  [type="submit"]:not(:disabled),
-  [type="reset"]:not(:disabled),
-  a[href],
-  select:not(:disabled),
-  input[type="checkbox"]:not(:disabled),
-  input[type="radio"]:not(:disabled) {
-    @apply cursor-pointer;
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
   }
 }
 
-@layer components {
-  .container {
-    width: 100%;
-    margin-left: auto;
-    margin-right: auto;
-    padding-left: 1rem;
-    padding-right: 1rem;
-  }
+/* Glass morphism effect */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
 
-  .flex {
-    min-height: 0;
-    min-width: 0;
-  }
+.dark .glass-panel {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
 
-  @media (min-width: 640px) {
-    .container {
-      padding-left: 1.5rem;
-      padding-right: 1.5rem;
-    }
-  }
+.light .glass-panel {
+  background: rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
 
-  @media (min-width: 1024px) {
-    .container {
-      padding-left: 2rem;
-      padding-right: 2rem;
-      max-width: 1280px;
-    }
-  }
-  
-  /* Custom utility for glass effect */
-  .glass-panel {
-    @apply bg-background/40 backdrop-blur-md border border-white/10 shadow-lg;
-  }
-  
-  .glass-button {
-    @apply bg-white/5 hover:bg-white/10 active:bg-white/15 backdrop-blur-sm border border-white/10 transition-all duration-300;
-  }
-  
-  .glow-text {
-    text-shadow: 0 0 10px var(--primary);
-  }
+.glass-button {
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: all 0.3s ease;
+}
 
-  /* Custom scrollbar */
-  .custom-scrollbar::-webkit-scrollbar {
-    width: 6px;
-  }
+.dark .glass-button {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
 
-  .custom-scrollbar::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 3px;
-  }
+.light .glass-button {
+  background: rgba(255, 255, 255, 0.5);
+  border: 1px solid rgba(0, 0, 0, 0.06);
+}
 
-  .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.2);
-    border-radius: 3px;
-  }
+.glass-button:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.15);
+}
 
-  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-    background: rgba(255, 255, 255, 0.3);
-  }
+.dark .glass-button:hover {
+  background: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.light .glass-button:hover {
+  background: rgba(255, 255, 255, 0.8);
+  border-color: rgba(0, 0, 0, 0.12);
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 4px;
+}
+
+.light ::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3);
+}
+
+.light ::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
 }

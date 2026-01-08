@@ -1,16 +1,18 @@
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
-import { Trash2, Save, AlertTriangle, Twitter, Globe, Info } from "lucide-react";
+import { Trash2, Save, AlertTriangle, Twitter, Globe, Info, Sun, Moon } from "lucide-react";
 import Navigation from "@/components/Navigation";
-import { getSettings, saveSettings, deleteAllRecords, AppSettings, Language, getNickname, saveNickname } from "@/lib/storage";
+import { getSettings, saveSettings, deleteAllRecords, AppSettings, Language, getNickname, saveNickname, Theme } from "@/lib/storage";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/contexts/LanguageContext";
+import { useTheme } from "@/contexts/ThemeContext";
 
 export default function Settings() {
-  const [settings, setSettings] = useState<AppSettings>({ tweetTemplate: '', language: 'ja', autoTweet: false });
+  const [settings, setSettings] = useState<AppSettings>({ tweetTemplate: '', language: 'ja', autoTweet: false, theme: 'light' });
   const [template, setTemplate] = useState('');
   const [nickname, setNickname] = useState('');
   const { t, language, setLanguage } = useLanguage();
+  const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
     const current = getSettings();
@@ -72,6 +74,36 @@ export default function Settings() {
               placeholder={t.shared.anonymous}
               maxLength={50}
             />
+          </div>
+        </section>
+
+        {/* Theme Settings */}
+        <section className="space-y-4">
+          <h2 className="text-sm text-muted-foreground px-2 font-light tracking-wide flex items-center gap-2">
+            {theme === 'light' ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
+            {t.settings.theme}
+          </h2>
+          <div className="glass-panel p-2 rounded-2xl flex">
+            <button
+              onClick={() => toggleTheme && toggleTheme()}
+              className={cn(
+                "flex-1 py-3 rounded-xl text-sm transition-all duration-300 flex items-center justify-center gap-2",
+                theme === 'light' ? "bg-primary/20 text-primary shadow-[0_0_10px_rgba(255,255,255,0.1)]" : "text-muted-foreground hover:text-foreground"
+              )}
+            >
+              <Sun className="w-4 h-4" />
+              {t.settings.themeLight}
+            </button>
+            <button
+              onClick={() => toggleTheme && toggleTheme()}
+              className={cn(
+                "flex-1 py-3 rounded-xl text-sm transition-all duration-300 flex items-center justify-center gap-2",
+                theme === 'dark' ? "bg-primary/20 text-primary shadow-[0_0_10px_rgba(255,255,255,0.1)]" : "text-muted-foreground hover:text-foreground"
+              )}
+            >
+              <Moon className="w-4 h-4" />
+              {t.settings.themeDark}
+            </button>
           </div>
         </section>
 

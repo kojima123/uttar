@@ -10,11 +10,13 @@ export interface InjectionRecord {
 }
 
 export type Language = 'ja' | 'en';
+export type Theme = 'light' | 'dark';
 
 export interface AppSettings {
   tweetTemplate: string;
   language: Language;
   autoTweet: boolean;
+  theme: Theme;
 }
 
 const STORAGE_KEY_RECORDS = 'uttar_records';
@@ -24,6 +26,7 @@ const DEFAULT_SETTINGS: AppSettings = {
   tweetTemplate: 'Completed self-injection. Site: {part} #Uttar #SelfInjection',
   language: 'en',
   autoTweet: false,
+  theme: 'light',
 };
 
 export const getRecords = (): InjectionRecord[] => {
