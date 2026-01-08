@@ -78,3 +78,7 @@
 - [x] Implement PDF export functionality
 - [x] Add export buttons to history screen
 - [x] Include all record details (date, time, body part, pain level, notes)
+
+## Deploy Fix
+- [x] Revert vite-plugin package name from ykojima back to manus
+- [x] Test deployment
