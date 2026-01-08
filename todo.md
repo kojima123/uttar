@@ -17,3 +17,7 @@
 - [x] Change default language to English
 - [x] Add app description to settings screen
 - [x] Fix test isolation issues in shared.test.ts (4/5 tests passing, core functionality verified)
+
+
+## Bug Fixes
+- [x] Fix X post template - {part} variable not being replaced with actual body part name (Test Post now uses sample value)

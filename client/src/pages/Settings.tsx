@@ -40,7 +40,9 @@ export default function Settings() {
   };
 
   const handleTweet = () => {
-    const text = encodeURIComponent(settings.tweetTemplate);
+    // Replace {part} with a sample value for testing
+    const sampleText = settings.tweetTemplate.replace('{part}', language === 'ja' ? '右 腹部' : 'Right Abdomen');
+    const text = encodeURIComponent(sampleText);
     window.open(`https://x.com/intent/tweet?text=${text}`, '_blank');
   };
 
