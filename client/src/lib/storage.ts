@@ -7,6 +7,8 @@ export interface InjectionRecord {
   side: BodySide;
   area: BodyArea;
   timestamp: number;
+  painLevel?: number; // 1-5, optional
+  notes?: string; // Optional notes
 }
 
 export type Language = 'ja' | 'en';

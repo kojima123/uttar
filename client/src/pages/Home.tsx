@@ -20,6 +20,9 @@ export default function Home() {
     const saved = localStorage.getItem('community_feed_collapsed');
     return saved === 'true';
   });
+  const [showNotesModal, setShowNotesModal] = useState(false);
+  const [painLevel, setPainLevel] = useState<number | undefined>(undefined);
+  const [notes, setNotes] = useState('');
   const { t, language } = useLanguage();
   const addSharedRecord = trpc.shared.add.useMutation();
   const utils = trpc.useUtils();
@@ -42,6 +45,12 @@ export default function Home() {
 
   const handleRecord = () => {
     if (!selectedArea || !selectedSide) return;
+    // Show notes modal instead of immediately recording
+    setShowNotesModal(true);
+  };
+
+  const handleConfirmRecord = async () => {
+    if (!selectedArea || !selectedSide) return;
 
     // Open window immediately to avoid popup blocker
     if (autoTweet) {
@@ -52,6 +61,7 @@ export default function Home() {
     }
 
     setIsRecording(true);
+    setShowNotesModal(false);
     
     // Simulate a gentle delay for "calmness"
     setTimeout(async () => {
@@ -60,6 +70,8 @@ export default function Home() {
         date: today,
         area: selectedArea,
         side: selectedSide,
+        painLevel: painLevel,
+        notes: notes || undefined,
       });
 
       // Send to shared timeline
@@ -81,8 +93,11 @@ export default function Home() {
         description: `${today} - ${getBodyLabel(language, selectedSide, selectedArea)}`,
       });
 
+      // Reset form
       setSelectedArea(null);
       setSelectedSide(null);
+      setPainLevel(undefined);
+      setNotes('');
       setIsRecording(false);
     }, 800);
   };
@@ -231,6 +246,92 @@ export default function Home() {
       </main>
 
       <Navigation />
+
+      {/* Notes Modal */}
+      <AnimatePresence>
+        {showNotesModal && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+            onClick={() => setShowNotesModal(false)}
+          >
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              exit={{ scale: 0.9, opacity: 0 }}
+              className="glass-panel p-6 rounded-2xl max-w-md w-full"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <h3 className="text-xl font-serif text-primary mb-4">
+                {language === 'ja' ? '記録の詳細（任意）' : 'Record Details (Optional)'}
+              </h3>
+
+              {/* Pain Level */}
+              <div className="mb-4">
+                <label className="block text-sm text-muted-foreground mb-2">
+                  {language === 'ja' ? '痛みレベル' : 'Pain Level'}
+                </label>
+                <div className="flex gap-2">
+                  {[1, 2, 3, 4, 5].map((level) => (
+                    <button
+                      key={level}
+                      onClick={() => setPainLevel(painLevel === level ? undefined : level)}
+                      className={cn(
+                        "flex-1 py-3 rounded-lg transition-all",
+                        painLevel === level
+                          ? "bg-primary/30 border-2 border-primary text-primary"
+                          : "bg-white/5 border border-white/10 text-muted-foreground hover:bg-white/10"
+                      )}
+                    >
+                      {level}
+                    </button>
+                  ))}
+                </div>
+                <p className="text-xs text-muted-foreground mt-1">
+                  {language === 'ja' ? '1: 痛みなし - 5: 強い痛み' : '1: No pain - 5: Severe pain'}
+                </p>
+              </div>
+
+              {/* Notes */}
+              <div className="mb-6">
+                <label className="block text-sm text-muted-foreground mb-2">
+                  {language === 'ja' ? 'メモ' : 'Notes'}
+                </label>
+                <textarea
+                  value={notes}
+                  onChange={(e) => setNotes(e.target.value)}
+                  placeholder={language === 'ja' ? '気づいたことを記録...' : 'Record your observations...'}
+                  className="w-full bg-white/5 border border-white/10 rounded-lg p-3 text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-primary/50 resize-none"
+                  rows={3}
+                />
+              </div>
+
+              {/* Buttons */}
+              <div className="flex gap-3">
+                <button
+                  onClick={() => {
+                    setShowNotesModal(false);
+                    setPainLevel(undefined);
+                    setNotes('');
+                  }}
+                  className="flex-1 py-3 rounded-lg bg-white/5 border border-white/10 text-muted-foreground hover:bg-white/10 transition-all"
+                >
+                  {language === 'ja' ? 'キャンセル' : 'Cancel'}
+                </button>
+                <button
+                  onClick={handleConfirmRecord}
+                  disabled={isRecording}
+                  className="flex-1 py-3 rounded-lg bg-primary/20 border border-primary/50 text-primary hover:bg-primary/30 transition-all disabled:opacity-50"
+                >
+                  {language === 'ja' ? '記録する' : 'Record'}
+                </button>
+              </div>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

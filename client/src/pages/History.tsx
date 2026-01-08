@@ -105,17 +105,34 @@ export default function History() {
                     exit={{ opacity: 0, height: 0 }}
                     className="glass-panel p-4 rounded-xl flex items-center justify-between group"
                   >
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-4 flex-1">
                       <div className="w-2 h-10 rounded-full bg-primary/20 flex items-center justify-center">
                         <div className="w-1 h-6 rounded-full bg-primary/60" />
                       </div>
-                      <div>
-                        <p className="text-lg font-serif text-foreground">
-                          {getBodyLabel(language, record.side, record.area)}
-                        </p>
+                      <div className="flex-1">
+                        <div className="flex items-center gap-2">
+                          <p className="text-lg font-serif text-foreground">
+                            {getBodyLabel(language, record.side, record.area)}
+                          </p>
+                          {record.painLevel && (
+                            <span className={cn(
+                              "text-xs px-2 py-0.5 rounded-full",
+                              record.painLevel <= 2 ? "bg-green-500/20 text-green-400" :
+                              record.painLevel <= 3 ? "bg-yellow-500/20 text-yellow-400" :
+                              "bg-red-500/20 text-red-400"
+                            )}>
+                              {language === 'ja' ? `痛み ${record.painLevel}` : `Pain ${record.painLevel}`}
+                            </span>
+                          )}
+                        </div>
                         <p className="text-xs text-muted-foreground font-mono mt-0.5">
                           {new Date(record.timestamp).toLocaleTimeString(language === 'ja' ? 'ja-JP' : 'en-US', { hour: '2-digit', minute: '2-digit' })}
                         </p>
+                        {record.notes && (
+                          <p className="text-sm text-muted-foreground mt-2 italic">
+                            {record.notes}
+                          </p>
+                        )}
                       </div>
                     </div>
                     

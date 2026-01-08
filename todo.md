@@ -60,3 +60,9 @@
 - [x] Calculate last injection time for each body part
 - [x] Highlight body parts in green if 48+ hours have passed since last injection
 - [x] Add visual indicator for recommended injection sites
+
+## Pain Level and Notes Feature
+- [x] Add pain level (1-5) and notes fields to data model
+- [x] Add optional input form for pain level and notes on record screen
+- [x] Display pain level and notes in history screen
+- [x] Add pain level indicator with visual representation
