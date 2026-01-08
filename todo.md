@@ -27,3 +27,8 @@
 - [x] Create light mode color scheme (bright and friendly)
 - [x] Set light mode as default
 - [x] Add theme switcher in settings
+
+## UX Improvements
+- [x] Move Community Feed to the left side of body diagram
+- [x] Add minimize/expand toggle for Community Feed
+- [x] Save Community Feed collapsed state in localStorage

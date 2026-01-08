@@ -135,12 +135,14 @@ export default function Home() {
         </button>
       </header>
 
-      <main className="flex-1 flex flex-col items-center relative z-10 w-full max-w-md mx-auto px-4 gap-8">
-        {/* Shared Community Feed */}
-        <SharedFeed />
+      <main className="flex-1 flex relative z-10 w-full max-w-6xl mx-auto px-4 gap-4 items-center">
+        {/* Shared Community Feed - Left Side */}
+        <div className="flex-shrink-0">
+          <SharedFeed />
+        </div>
 
-        {/* Body Silhouette Section */}
-        <div className="flex-1 flex items-center justify-center w-full">
+        {/* Body Silhouette Section - Center */}
+        <div className="flex-1 flex items-center justify-center">
         <div className="relative w-[300px] h-[550px] flex items-center justify-center">
           {/* Silhouette Image */}
           <img 
@@ -162,7 +164,6 @@ export default function Home() {
           <BodyPart area="thigh" side="left" className="top-[50%] left-[28%] w-14 h-24" />
           <BodyPart area="thigh" side="right" className="top-[50%] right-[28%] w-14 h-24" />
         </div>
-        </div>
 
         <AnimatePresence>
           {selectedArea && (
@@ -170,7 +171,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 20 }}
-              className="absolute bottom-4 w-full px-6"
+              className="absolute bottom-4 left-0 right-0 px-6 max-w-md mx-auto"
             >
               <button
                 onClick={handleRecord}
@@ -187,6 +188,7 @@ export default function Home() {
             </motion.div>
           )}
         </AnimatePresence>
+        </div>
       </main>
 
       <Navigation />
