@@ -12,6 +12,8 @@ import { useLanguage } from "@/contexts/LanguageContext";
 import { getBodyLabel } from "@/lib/i18n";
 import { calculateBodyPartStatistics, getMostAndLeastUsedParts } from "@/lib/statisticsHelper";
 import { StatisticsPieChart } from "@/components/StatisticsPieChart";
+import { exportToCSV, exportToPDF } from "@/lib/exportHelper";
+import { Download, FileText } from "lucide-react";
 
 export default function History() {
   const [records, setRecords] = useState<InjectionRecord[]>([]);
@@ -54,8 +56,30 @@ export default function History() {
     <div className="min-h-screen flex flex-col pb-24 relative">
       <div className="absolute top-[-20%] right-[-20%] w-[70%] h-[70%] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
 
-      <header className="pt-12 px-6 mb-6 relative z-10">
+      <header className="pt-12 px-6 mb-6 relative z-10 flex items-center justify-between">
         <h1 className="text-2xl text-primary font-serif tracking-widest">{t.history.title}</h1>
+        
+        {/* Export Buttons */}
+        {records.length > 0 && (
+          <div className="flex gap-2">
+            <button
+              onClick={() => exportToCSV(records, language)}
+              className="glass-panel px-3 py-2 rounded-lg flex items-center gap-2 text-sm text-foreground hover:bg-primary/10 transition-colors"
+              title={language === 'ja' ? 'CSVでエクスポート' : 'Export as CSV'}
+            >
+              <Download className="w-4 h-4" />
+              <span className="hidden sm:inline">CSV</span>
+            </button>
+            <button
+              onClick={() => exportToPDF(records, language)}
+              className="glass-panel px-3 py-2 rounded-lg flex items-center gap-2 text-sm text-foreground hover:bg-primary/10 transition-colors"
+              title={language === 'ja' ? 'PDFでエクスポート' : 'Export as PDF'}
+            >
+              <FileText className="w-4 h-4" />
+              <span className="hidden sm:inline">PDF</span>
+            </button>
+          </div>
+        )}
       </header>
 
       <main className="flex-1 px-4 relative z-10 w-full max-w-4xl mx-auto flex flex-col gap-6">

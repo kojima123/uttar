@@ -72,3 +72,9 @@
 - [x] Create pie chart component for body part distribution
 - [x] Add statistics dashboard to history screen
 - [x] Display total injection count and most/least used parts
+
+## Data Export Feature
+- [x] Implement CSV export functionality
+- [x] Implement PDF export functionality
+- [x] Add export buttons to history screen
+- [x] Include all record details (date, time, body part, pain level, notes)
