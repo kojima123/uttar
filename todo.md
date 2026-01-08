@@ -66,3 +66,9 @@
 - [x] Add optional input form for pain level and notes on record screen
 - [x] Display pain level and notes in history screen
 - [x] Add pain level indicator with visual representation
+
+## Statistics Dashboard Feature
+- [x] Implement data aggregation logic for past 30 days
+- [x] Create pie chart component for body part distribution
+- [x] Add statistics dashboard to history screen
+- [x] Display total injection count and most/least used parts
