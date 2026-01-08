@@ -5,6 +5,7 @@ import { Twitter, Users, ChevronLeft, ChevronRight } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import SharedFeed from "@/components/SharedFeed";
 import { BodyArea, BodySide, saveRecord, getSettings, saveSettings, getNickname } from "@/lib/storage";
+import { isBodyPartRecommended } from "@/lib/rotationHelper";
 import { trpc } from "@/lib/trpc";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -88,6 +89,7 @@ export default function Home() {
 
   const BodyPart = ({ area, side, className }: { area: BodyArea, side: BodySide, className: string }) => {
     const isSelected = selectedArea === area && selectedSide === side;
+    const isRecommended = isBodyPartRecommended(side, area);
     
     return (
       <button
@@ -96,6 +98,8 @@ export default function Home() {
           "absolute rounded-full transition-all duration-500 cursor-pointer",
           isSelected 
             ? "bg-primary/60 shadow-[0_0_20px_rgba(255,255,255,0.6)] scale-110 z-10" 
+            : isRecommended
+            ? "bg-green-500/30 hover:bg-green-500/40 border-2 border-green-400/50 shadow-[0_0_15px_rgba(34,197,94,0.3)]"
             : "bg-white/5 hover:bg-white/10 border border-white/5",
           className
         )}

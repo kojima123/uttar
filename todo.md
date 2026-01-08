@@ -55,3 +55,8 @@
 
 ## Layout Fix
 - [x] Add horizontal scroll when community feed is expanded to prevent content cutoff
+
+## Rotation Management Feature
+- [x] Calculate last injection time for each body part
+- [x] Highlight body parts in green if 48+ hours have passed since last injection
+- [x] Add visual indicator for recommended injection sites
