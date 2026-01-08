@@ -37,3 +37,8 @@
 - [x] Reorganize layout with header-style horizontal arrangement
 - [x] Center body diagram when community feed is minimized
 - [x] Improve visual balance between feed and body diagram
+
+## Layout Adjustments
+- [x] Move minimize button to fixed position in top-left corner
+- [x] Ensure body diagram is perfectly centered when feed is minimized
+- [x] Remove minimize button from feed card header

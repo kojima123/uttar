@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
-import { Twitter } from "lucide-react";
+import { Twitter, Users, ChevronLeft, ChevronRight } from "lucide-react";
 import Navigation from "@/components/Navigation";
 import SharedFeed from "@/components/SharedFeed";
 import { BodyArea, BodySide, saveRecord, getSettings, saveSettings, getNickname } from "@/lib/storage";
@@ -140,15 +140,37 @@ export default function Home() {
       </header>
 
       <main className="flex-1 flex flex-col relative z-10 w-full mx-auto px-4">
-        {/* Header Section with Feed and Body Diagram */}
+        {/* Minimize/Expand Button - Fixed Top Left */}
+        {isFeedCollapsed ? (
+          <button
+            onClick={() => setIsFeedCollapsed(false)}
+            className="absolute top-4 left-4 glass-panel p-3 rounded-2xl flex items-center gap-2 hover:bg-white/10 transition-all z-20"
+            aria-label="Expand community feed"
+          >
+            <Users className="w-5 h-5 text-primary" />
+            <ChevronRight className="w-4 h-4 text-muted-foreground" />
+          </button>
+        ) : (
+          <button
+            onClick={() => setIsFeedCollapsed(true)}
+            className="absolute top-4 left-4 glass-panel p-3 rounded-2xl hover:bg-white/10 transition-all z-20"
+            aria-label="Minimize community feed"
+          >
+            <ChevronLeft className="w-4 h-4 text-muted-foreground" />
+          </button>
+        )}
+
+        {/* Content Section */}
         <div className={cn(
-          "flex gap-6 items-start justify-center w-full",
-          isFeedCollapsed && "justify-center"
+          "flex gap-6 items-start w-full",
+          isFeedCollapsed ? "justify-center" : "justify-center"
         )}>
           {/* Shared Community Feed */}
-          <div className="flex-shrink-0">
-            <SharedFeed onCollapseChange={setIsFeedCollapsed} />
-          </div>
+          {!isFeedCollapsed && (
+            <div className="flex-shrink-0">
+              <SharedFeed />
+            </div>
+          )}
 
           {/* Body Silhouette Section */}
           <div className={cn(

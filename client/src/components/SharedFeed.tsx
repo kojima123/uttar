@@ -1,22 +1,11 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Users, Loader2, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Users, Loader2 } from 'lucide-react';
 import { trpc } from '@/lib/trpc';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { getBodyLabel } from '@/lib/i18n';
 
-export default function SharedFeed({ onCollapseChange }: { onCollapseChange?: (collapsed: boolean) => void }) {
-  const [isCollapsed, setIsCollapsed] = useState(() => {
-    const saved = localStorage.getItem('community_feed_collapsed');
-    return saved === 'true';
-  });
-
-  const toggleCollapse = () => {
-    const newState = !isCollapsed;
-    setIsCollapsed(newState);
-    localStorage.setItem('community_feed_collapsed', String(newState));
-    onCollapseChange?.(newState);
-  };
+export default function SharedFeed() {
 
   const { t, language } = useLanguage();
   const { data: records, isLoading, error } = trpc.shared.list.useQuery(undefined, {
@@ -41,33 +30,11 @@ export default function SharedFeed({ onCollapseChange }: { onCollapseChange?: (c
     return null; // Silently fail - community feed is optional
   }
 
-  if (isCollapsed) {
-    return (
-      <button
-        onClick={toggleCollapse}
-        className="glass-panel p-3 rounded-2xl flex items-center gap-2 hover:bg-white/10 transition-all"
-        aria-label="Expand community feed"
-      >
-        <Users className="w-5 h-5 text-primary" />
-        <ChevronRight className="w-4 h-4 text-muted-foreground" />
-      </button>
-    );
-  }
-
   return (
     <div className="glass-panel p-6 rounded-2xl space-y-4 w-full max-w-xs">
-      <div className="flex items-center justify-between mb-4">
-        <div className="flex items-center gap-2">
-          <Users className="w-5 h-5 text-primary" />
-          <h2 className="text-lg font-serif text-primary tracking-wide">{t.shared.title}</h2>
-        </div>
-        <button
-          onClick={toggleCollapse}
-          className="p-1 rounded-lg hover:bg-white/10 transition-colors"
-          aria-label="Minimize community feed"
-        >
-          <ChevronLeft className="w-4 h-4 text-muted-foreground" />
-        </button>
+      <div className="flex items-center gap-2 mb-4">
+        <Users className="w-5 h-5 text-primary" />
+        <h2 className="text-lg font-serif text-primary tracking-wide">{t.shared.title}</h2>
       </div>
       <p className="text-xs text-muted-foreground/70 mb-4">{t.shared.subtitle}</p>
 
