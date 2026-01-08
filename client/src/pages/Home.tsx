@@ -37,7 +37,8 @@ export default function Home() {
     // Open window immediately to avoid popup blocker
     if (autoTweet) {
       const settings = getSettings();
-      const text = encodeURIComponent(settings.tweetTemplate);
+      const partLabel = getBodyLabel(language, selectedSide, selectedArea);
+      const text = encodeURIComponent(settings.tweetTemplate.replace('{part}', partLabel));
       window.open(`https://x.com/intent/tweet?text=${text}`, '_blank');
     }
 

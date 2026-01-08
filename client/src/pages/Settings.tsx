@@ -104,6 +104,7 @@ export default function Settings() {
 
             <div className="space-y-2">
               <label className="text-xs text-muted-foreground block">{t.settings.template}</label>
+              <p className="text-[10px] text-muted-foreground/70">{t.settings.templateDesc}</p>
               <textarea
                 value={template}
                 onChange={(e) => setTemplate(e.target.value)}
