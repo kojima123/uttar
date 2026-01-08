@@ -1,18 +1,21 @@
 import { useState, useEffect } from "react";
 import { DayPicker } from "react-day-picker";
-import { ja } from "date-fns/locale";
+import { ja, enUS } from "date-fns/locale";
 import { format, parseISO } from "date-fns";
 import { Trash2, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Navigation from "@/components/Navigation";
-import { getRecords, InjectionRecord, deleteRecord, getAreaLabel, getSideLabel } from "@/lib/storage";
+import { getRecords, InjectionRecord, deleteRecord } from "@/lib/storage";
 import { cn } from "@/lib/utils";
 import "react-day-picker/dist/style.css";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { getBodyLabel } from "@/lib/i18n";
 
 export default function History() {
   const [records, setRecords] = useState<InjectionRecord[]>([]);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
   const [selectedRecords, setSelectedRecords] = useState<InjectionRecord[]>([]);
+  const { t, language } = useLanguage();
 
   useEffect(() => {
     loadRecords();
@@ -32,7 +35,7 @@ export default function History() {
   };
 
   const handleDelete = (id: string) => {
-    if (confirm('この記録を削除しますか？')) {
+    if (confirm(t.history.deleteConfirm)) {
       deleteRecord(id);
       loadRecords();
     }
@@ -46,7 +49,7 @@ export default function History() {
       <div className="absolute top-[-20%] right-[-20%] w-[70%] h-[70%] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
 
       <header className="pt-12 px-6 mb-6 relative z-10">
-        <h1 className="text-2xl text-primary font-serif tracking-widest">履歴</h1>
+        <h1 className="text-2xl text-primary font-serif tracking-widest">{t.history.title}</h1>
       </header>
 
       <main className="flex-1 px-4 relative z-10 w-full max-w-md mx-auto flex flex-col gap-6">
@@ -78,7 +81,7 @@ export default function History() {
             mode="single"
             selected={selectedDate}
             onSelect={setSelectedDate}
-            locale={ja}
+            locale={language === 'ja' ? ja : enUS}
             modifiers={{ recorded: recordedDays }}
             modifiersClassNames={{ recorded: "recorded-day" }}
             className="w-full flex justify-center"
@@ -88,7 +91,7 @@ export default function History() {
         {/* Details List */}
         <div className="flex-1">
           <h2 className="text-sm text-muted-foreground mb-3 px-2 font-light tracking-wide">
-            {selectedDate ? format(selectedDate, 'yyyy年M月d日', { locale: ja }) : '日付を選択してください'}
+            {selectedDate ? format(selectedDate, language === 'ja' ? 'yyyy年M月d日' : 'MMMM d, yyyy', { locale: language === 'ja' ? ja : enUS }) : t.history.selectDate}
           </h2>
           
           <div className="space-y-3">
@@ -108,10 +111,10 @@ export default function History() {
                       </div>
                       <div>
                         <p className="text-lg font-serif text-foreground">
-                          {getSideLabel(record.side)} {getAreaLabel(record.area)}
+                          {getBodyLabel(language, record.side, record.area)}
                         </p>
                         <p className="text-xs text-muted-foreground font-mono mt-0.5">
-                          {new Date(record.timestamp).toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit' })}
+                          {new Date(record.timestamp).toLocaleTimeString(language === 'ja' ? 'ja-JP' : 'en-US', { hour: '2-digit', minute: '2-digit' })}
                         </p>
                       </div>
                     </div>
@@ -125,14 +128,14 @@ export default function History() {
                     </button>
                   </motion.div>
                 ))
-              ) : (
+                ) : (
                 selectedDate && (
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     className="text-center py-10 text-muted-foreground/50 font-light"
                   >
-                    記録はありません
+                    {t.history.noRecords}
                   </motion.div>
                 )
               )}

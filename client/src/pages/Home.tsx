@@ -2,13 +2,16 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
 import Navigation from "@/components/Navigation";
-import { BodyArea, BodySide, saveRecord, getAreaLabel, getSideLabel } from "@/lib/storage";
+import { BodyArea, BodySide, saveRecord } from "@/lib/storage";
 import { cn } from "@/lib/utils";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { getBodyLabel } from "@/lib/i18n";
 
 export default function Home() {
   const [selectedArea, setSelectedArea] = useState<BodyArea | null>(null);
   const [selectedSide, setSelectedSide] = useState<BodySide | null>(null);
   const [isRecording, setIsRecording] = useState(false);
+  const { t, language } = useLanguage();
 
   const handleSelect = (area: BodyArea, side: BodySide) => {
     setSelectedArea(area);
@@ -29,8 +32,8 @@ export default function Home() {
         side: selectedSide,
       });
 
-      toast.success("記録しました", {
-        description: `${today} - ${getSideLabel(selectedSide)}${getAreaLabel(selectedArea)}`,
+      toast.success(t.home.recorded, {
+        description: `${today} - ${getBodyLabel(language, selectedSide, selectedArea)}`,
       });
 
       setSelectedArea(null);
@@ -52,7 +55,7 @@ export default function Home() {
             : "bg-white/5 hover:bg-white/10 border border-white/5",
           className
         )}
-        aria-label={`${getSideLabel(side)}${getAreaLabel(area)}`}
+        aria-label={getBodyLabel(language, side, area)}
       >
         {isSelected && (
           <motion.div
@@ -74,8 +77,8 @@ export default function Home() {
       <div className="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-secondary/10 rounded-full blur-[120px] pointer-events-none" />
 
       <header className="pt-12 px-6 mb-8 relative z-10">
-        <h1 className="text-3xl text-primary font-serif tracking-widest drop-shadow-lg">Uttar</h1>
-        <p className="text-muted-foreground text-sm mt-2 font-light tracking-wide">静かな記録を、ここに。</p>
+        <h1 className="text-3xl text-primary font-serif tracking-widest drop-shadow-lg">{t.app.title}</h1>
+        <p className="text-muted-foreground text-sm mt-2 font-light tracking-wide">{t.app.subtitle}</p>
       </header>
 
       <main className="flex-1 flex flex-col items-center justify-center relative z-10 w-full max-w-md mx-auto">
@@ -115,7 +118,7 @@ export default function Home() {
                 className="w-full glass-button py-4 rounded-xl text-lg font-serif tracking-widest text-primary shadow-[0_0_15px_rgba(0,0,0,0.3)] disabled:opacity-50 disabled:cursor-not-allowed group relative overflow-hidden"
               >
                 <span className="relative z-10">
-                  {isRecording ? "記録中..." : "記録する"}
+                  {isRecording ? t.home.recording : t.home.record}
                 </span>
                 {!isRecording && (
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]" />

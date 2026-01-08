@@ -1,14 +1,16 @@
 import { Link, useLocation } from "wouter";
 import { Home, Calendar, Settings } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function Navigation() {
   const [location] = useLocation();
+  const { t } = useLanguage();
 
   const navItems = [
-    { href: "/", icon: Home, label: "記録" },
-    { href: "/history", icon: Calendar, label: "履歴" },
-    { href: "/settings", icon: Settings, label: "設定" },
+    { href: "/", icon: Home, label: t.nav.record },
+    { href: "/history", icon: Calendar, label: t.nav.history },
+    { href: "/settings", icon: Settings, label: t.nav.settings },
   ];
 
   return (
