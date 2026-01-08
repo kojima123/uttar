@@ -36,7 +36,7 @@ Uttar is a private logging application designed for managing self-injection reco
 ### Backend
 - **Node.js** with Express
 - **MySQL** database with Drizzle ORM
-- **OAuth** authentication via Manus platform
+- **OAuth** authentication via ykojima platform
 - **tRPC** for API layer
 
 ## Getting Started
@@ -54,21 +54,21 @@ Create a `.env` file in the project root with the following variables:
 # Database
 DATABASE_URL=mysql://user:password@host:port/database
 
-# OAuth (Manus Platform)
-OAUTH_SERVER_URL=https://api.manus.im
+# OAuth (ykojima Platform)
+OAUTH_SERVER_URL=https://api.ykojima.dev
 OWNER_OPEN_ID=your_owner_open_id
 JWT_SECRET=your_jwt_secret
 
 # Forge API (for AI features)
 BUILT_IN_FORGE_API_KEY=your_forge_api_key
-BUILT_IN_FORGE_API_URL=https://forge.manus.im
+BUILT_IN_FORGE_API_URL=https://forge.ykojima.dev
 
 # Frontend
 VITE_APP_TITLE=Uttar
 VITE_APP_LOGO=/logo.png
 VITE_FRONTEND_FORGE_API_KEY=your_frontend_api_key
-VITE_FRONTEND_FORGE_API_URL=https://forge.manus.im
-VITE_OAUTH_PORTAL_URL=https://oauth.manus.im
+VITE_FRONTEND_FORGE_API_URL=https://forge.ykojima.dev
+VITE_OAUTH_PORTAL_URL=https://oauth.ykojima.dev
 VITE_APP_ID=your_app_id
 
 # Analytics (optional)
@@ -176,7 +176,7 @@ This project is open source and available for personal use. Please respect user 
 
 ## Acknowledgments
 
-- Built with [Manus](https://manus.im) platform
+- Built with [ykojima](https://ykojima.dev) platform
 - Icons from [Lucide](https://lucide.dev)
 - UI components inspired by modern health tracking applications
 

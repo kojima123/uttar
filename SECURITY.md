@@ -52,7 +52,7 @@ A comprehensive security audit was conducted on the Uttar project before public 
 - `tsconfig.json` - Standard TypeScript configuration
 
 **URLs Found**:
-- `https://forge.manus.im` - Public API endpoint (fallback)
+- `https://forge.ykojima.dev` - Public API endpoint (fallback)
 - `https://example.com` - Documentation example only
 
 ### 4. Git Repository ✅
@@ -78,7 +78,7 @@ A comprehensive security audit was conducted on the Uttar project before public 
 ## Security Best Practices Implemented
 
 ### Authentication & Authorization
-- OAuth 2.0 implementation via Manus platform
+- OAuth 2.0 implementation via ykojima platform
 - Session-based authentication with secure cookies
 - JWT tokens for session management
 - Admin role based on owner OpenID
@@ -173,6 +173,6 @@ The Uttar project has been thoroughly audited and found to be secure for public 
 
 ---
 
-**Auditor**: Manus AI  
+**Auditor**: ykojima AI  
 **Date**: January 8, 2026  
 **Next Review**: Recommended after major feature additions or dependency updates

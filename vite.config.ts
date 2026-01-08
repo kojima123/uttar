@@ -4,10 +4,10 @@ import react from "@vitejs/plugin-react";
 import fs from "node:fs";
 import path from "path";
 import { defineConfig } from "vite";
-import { vitePluginManusRuntime } from "vite-plugin-manus-runtime";
+import { vitePluginykojimaRuntime } from "vite-plugin-ykojima-runtime";
 
 
-const plugins = [react(), tailwindcss(), jsxLocPlugin(), vitePluginManusRuntime()];
+const plugins = [react(), tailwindcss(), jsxLocPlugin(), vitePluginykojimaRuntime()];
 
 export default defineConfig({
   plugins,
@@ -28,11 +28,11 @@ export default defineConfig({
   server: {
     host: true,
     allowedHosts: [
-      ".manuspre.computer",
-      ".manus.computer",
-      ".manus-asia.computer",
-      ".manuscomputer.ai",
-      ".manusvm.computer",
+      ".ykojimapre.computer",
+      ".ykojima.computer",
+      ".ykojima-asia.computer",
+      ".ykojimacomputer.ai",
+      ".ykojimavm.computer",
       "localhost",
       "127.0.0.1",
     ],
