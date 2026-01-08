@@ -52,3 +52,6 @@
 - [x] Replace all "manus" references with "ykojima"
 - [x] Replace all "Manus" references with "ykojima"
 - [x] Force push to GitHub
+
+## Layout Fix
+- [x] Add horizontal scroll when community feed is expanded to prevent content cutoff

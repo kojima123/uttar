@@ -139,7 +139,7 @@ export default function Home() {
         </button>
       </header>
 
-      <main className="flex-1 flex flex-col relative z-10 w-full mx-auto px-4">
+      <main className="flex-1 flex flex-col relative z-10 w-full mx-auto px-4 overflow-x-auto">
         {/* Minimize/Expand Button - Fixed Top Left */}
         {isFeedCollapsed ? (
           <button
@@ -162,8 +162,8 @@ export default function Home() {
 
         {/* Content Section */}
         <div className={cn(
-          "flex gap-6 items-start w-full",
-          isFeedCollapsed ? "justify-center" : "justify-center"
+          "flex gap-6 items-start",
+          isFeedCollapsed ? "justify-center w-full" : "min-w-max"
         )}>
           {/* Shared Community Feed */}
           {!isFeedCollapsed && (
