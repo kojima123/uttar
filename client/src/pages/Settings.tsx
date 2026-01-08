@@ -1,24 +1,27 @@
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
-import { Trash2, Save, AlertTriangle, Twitter, Globe } from "lucide-react";
+import { Trash2, Save, AlertTriangle, Twitter, Globe, Info } from "lucide-react";
 import Navigation from "@/components/Navigation";
-import { getSettings, saveSettings, deleteAllRecords, AppSettings, Language } from "@/lib/storage";
+import { getSettings, saveSettings, deleteAllRecords, AppSettings, Language, getNickname, saveNickname } from "@/lib/storage";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function Settings() {
   const [settings, setSettings] = useState<AppSettings>({ tweetTemplate: '', language: 'ja', autoTweet: false });
   const [template, setTemplate] = useState('');
+  const [nickname, setNickname] = useState('');
   const { t, language, setLanguage } = useLanguage();
 
   useEffect(() => {
     const current = getSettings();
     setSettings(current);
     setTemplate(current.tweetTemplate);
+    setNickname(getNickname());
   }, []);
 
   const handleSaveTemplate = () => {
     saveSettings({ tweetTemplate: template });
+    saveNickname(nickname);
     setSettings(prev => ({ ...prev, tweetTemplate: template }));
     toast.success(t.settings.saved);
   };
@@ -51,6 +54,25 @@ export default function Settings() {
 
       <main className="flex-1 px-4 relative z-10 w-full max-w-md mx-auto flex flex-col gap-8">
         
+        {/* Nickname Settings */}
+        <section className="space-y-4">
+          <h2 className="text-sm text-muted-foreground px-2 font-light tracking-wide flex items-center gap-2">
+            <Globe className="w-4 h-4" />
+            {t.settings.nickname}
+          </h2>
+          <div className="glass-panel p-5 rounded-2xl space-y-2">
+            <p className="text-xs text-muted-foreground/70">{t.settings.nicknameDesc}</p>
+            <input
+              type="text"
+              value={nickname}
+              onChange={(e) => setNickname(e.target.value)}
+              className="w-full bg-black/20 border border-white/10 rounded-xl p-3 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-primary/50"
+              placeholder={t.shared.anonymous}
+              maxLength={50}
+            />
+          </div>
+        </section>
+
         {/* Language Settings */}
         <section className="space-y-4">
           <h2 className="text-sm text-muted-foreground px-2 font-light tracking-wide flex items-center gap-2">
@@ -128,6 +150,19 @@ export default function Settings() {
                 {t.settings.testTweet}
               </button>
             </div>
+          </div>
+        </section>
+
+        {/* About Section */}
+        <section className="space-y-4">
+          <h2 className="text-sm text-muted-foreground px-2 font-light tracking-wide flex items-center gap-2">
+            <Info className="w-4 h-4" />
+            {t.settings.about}
+          </h2>
+          <div className="glass-panel p-5 rounded-2xl">
+            <p className="text-xs text-muted-foreground/80 leading-relaxed">
+              {t.settings.aboutDesc}
+            </p>
           </div>
         </section>
 

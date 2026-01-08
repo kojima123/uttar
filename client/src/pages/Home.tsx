@@ -3,7 +3,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
 import { Twitter } from "lucide-react";
 import Navigation from "@/components/Navigation";
-import { BodyArea, BodySide, saveRecord, getSettings, saveSettings } from "@/lib/storage";
+import SharedFeed from "@/components/SharedFeed";
+import { BodyArea, BodySide, saveRecord, getSettings, saveSettings, getNickname } from "@/lib/storage";
+import { trpc } from "@/lib/trpc";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { getBodyLabel } from "@/lib/i18n";
@@ -14,6 +16,8 @@ export default function Home() {
   const [isRecording, setIsRecording] = useState(false);
   const [autoTweet, setAutoTweet] = useState(false);
   const { t, language } = useLanguage();
+  const addSharedRecord = trpc.shared.add.useMutation();
+  const utils = trpc.useUtils();
 
   useEffect(() => {
     const settings = getSettings();
@@ -45,13 +49,28 @@ export default function Home() {
     setIsRecording(true);
     
     // Simulate a gentle delay for "calmness"
-    setTimeout(() => {
+    setTimeout(async () => {
       const today = new Date().toISOString().split('T')[0];
       saveRecord({
         date: today,
         area: selectedArea,
         side: selectedSide,
       });
+
+      // Send to shared timeline
+      try {
+        const nickname = getNickname() || t.shared.anonymous;
+        await addSharedRecord.mutateAsync({
+          nickname,
+          area: selectedArea,
+          side: selectedSide,
+        });
+        // Refresh the feed
+        utils.shared.list.invalidate();
+      } catch (error) {
+        console.error('Failed to add shared record:', error);
+        // Continue even if sharing fails - local record is saved
+      }
 
       toast.success(t.home.recorded, {
         description: `${today} - ${getBodyLabel(language, selectedSide, selectedArea)}`,
@@ -116,7 +135,12 @@ export default function Home() {
         </button>
       </header>
 
-      <main className="flex-1 flex flex-col items-center justify-center relative z-10 w-full max-w-md mx-auto">
+      <main className="flex-1 flex flex-col items-center relative z-10 w-full max-w-md mx-auto px-4 gap-8">
+        {/* Shared Community Feed */}
+        <SharedFeed />
+
+        {/* Body Silhouette Section */}
+        <div className="flex-1 flex items-center justify-center w-full">
         <div className="relative w-[300px] h-[550px] flex items-center justify-center">
           {/* Silhouette Image */}
           <img 
@@ -137,6 +161,7 @@ export default function Home() {
           {/* Thighs */}
           <BodyPart area="thigh" side="left" className="top-[50%] left-[28%] w-14 h-24" />
           <BodyPart area="thigh" side="right" className="top-[50%] right-[28%] w-14 h-24" />
+        </div>
         </div>
 
         <AnimatePresence>

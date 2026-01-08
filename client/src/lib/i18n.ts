@@ -38,6 +38,10 @@ export const translations = {
       deleteAllConfirm: '本当に全てのデータを削除しますか？この操作は取り消せません。',
       deletedAll: '全データを削除しました',
       language: '言語設定',
+      nickname: 'ニックネーム',
+      nicknameDesc: 'みんなの広場で表示される名前です。空欄の場合は「匿名さん」と表示されます。',
+      about: 'アプリについて',
+      aboutDesc: 'Uttarは自己注射の記録を管理するためのプライベートなログアプリです。このアプリは医学的なアドバイスを提供するものではありません。記録はすべて端末に保存され、個人情報の収集や追跡は行われません。みんなの広場機能では、同じように自己注射をしている人たちとのつながりを感じることができます。',
       disclaimer: 'This app is for personal logging only and does not provide medical advice.',
     },
     body: {
@@ -46,6 +50,13 @@ export const translations = {
       abdomen: '腹部',
       thigh: '太もも',
       arm: '腕',
+    },
+    shared: {
+      title: 'みんなの広場',
+      subtitle: '同じように自己注射をしている人たち',
+      anonymous: '匿名さん',
+      recorded: 'が{part}に記録しました',
+      noRecords: 'まだ記録がありません',
     }
   },
   en: {
@@ -85,6 +96,10 @@ export const translations = {
       deleteAllConfirm: 'Are you sure you want to delete all data? This cannot be undone.',
       deletedAll: 'All data deleted',
       language: 'Language',
+      nickname: 'Nickname',
+      nicknameDesc: 'Your name displayed in the community feed. If empty, you will be shown as "Anonymous".',
+      about: 'About',
+      aboutDesc: 'Uttar is a private logging app for managing self-injection records. This app does not provide medical advice. All records are stored locally on your device, and no personal information is collected or tracked. The community feed feature allows you to feel connected with others who are also practicing self-injection.',
       disclaimer: 'This app is for personal logging only and does not provide medical advice.',
     },
     body: {
@@ -93,6 +108,13 @@ export const translations = {
       abdomen: 'Abdomen',
       thigh: 'Thigh',
       arm: 'Arm',
+    },
+    shared: {
+      title: 'Community Feed',
+      subtitle: 'Others practicing self-injection',
+      anonymous: 'Anonymous',
+      recorded: ' recorded at {part}',
+      noRecords: 'No records yet',
     }
   }
 };
