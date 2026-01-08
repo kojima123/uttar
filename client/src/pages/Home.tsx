@@ -34,6 +34,13 @@ export default function Home() {
   const handleRecord = () => {
     if (!selectedArea || !selectedSide) return;
 
+    // Open window immediately to avoid popup blocker
+    if (autoTweet) {
+      const settings = getSettings();
+      const text = encodeURIComponent(settings.tweetTemplate);
+      window.open(`https://x.com/intent/tweet?text=${text}`, '_blank');
+    }
+
     setIsRecording(true);
     
     // Simulate a gentle delay for "calmness"
@@ -48,12 +55,6 @@ export default function Home() {
       toast.success(t.home.recorded, {
         description: `${today} - ${getBodyLabel(language, selectedSide, selectedArea)}`,
       });
-
-      if (autoTweet) {
-        const settings = getSettings();
-        const text = encodeURIComponent(settings.tweetTemplate);
-        window.open(`https://x.com/intent/tweet?text=${text}`, '_blank');
-      }
 
       setSelectedArea(null);
       setSelectedSide(null);
