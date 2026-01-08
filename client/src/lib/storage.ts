@@ -14,6 +14,7 @@ export type Language = 'ja' | 'en';
 export interface AppSettings {
   tweetTemplate: string;
   language: Language;
+  autoTweet: boolean;
 }
 
 const STORAGE_KEY_RECORDS = 'uttar_records';
@@ -22,6 +23,7 @@ const STORAGE_KEY_SETTINGS = 'uttar_settings';
 const DEFAULT_SETTINGS: AppSettings = {
   tweetTemplate: '自己注射完了しました。 #Uttar #自己注射',
   language: 'ja',
+  autoTweet: false,
 };
 
 export const getRecords = (): InjectionRecord[] => {

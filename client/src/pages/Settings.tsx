@@ -7,7 +7,7 @@ import { cn } from "@/lib/utils";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function Settings() {
-  const [settings, setSettings] = useState<AppSettings>({ tweetTemplate: '', language: 'ja' });
+  const [settings, setSettings] = useState<AppSettings>({ tweetTemplate: '', language: 'ja', autoTweet: false });
   const [template, setTemplate] = useState('');
   const { t, language, setLanguage } = useLanguage();
 
@@ -21,6 +21,12 @@ export default function Settings() {
     saveSettings({ tweetTemplate: template });
     setSettings(prev => ({ ...prev, tweetTemplate: template }));
     toast.success(t.settings.saved);
+  };
+
+  const toggleAutoTweet = () => {
+    const newValue = !settings.autoTweet;
+    saveSettings({ autoTweet: newValue });
+    setSettings(prev => ({ ...prev, autoTweet: newValue }));
   };
 
   const handleDeleteAll = () => {
@@ -80,6 +86,22 @@ export default function Settings() {
             {t.settings.twitter}
           </h2>
           <div className="glass-panel p-5 rounded-2xl space-y-4">
+            <div className="flex items-center justify-between pb-2 border-b border-white/5">
+              <label className="text-sm text-foreground">{t.settings.autoTweet}</label>
+              <button
+                onClick={toggleAutoTweet}
+                className={cn(
+                  "w-12 h-6 rounded-full transition-colors relative",
+                  settings.autoTweet ? "bg-primary" : "bg-white/10"
+                )}
+              >
+                <div className={cn(
+                  "absolute top-1 left-1 w-4 h-4 rounded-full bg-white transition-transform",
+                  settings.autoTweet ? "translate-x-6" : "translate-x-0"
+                )} />
+              </button>
+            </div>
+
             <div className="space-y-2">
               <label className="text-xs text-muted-foreground block">{t.settings.template}</label>
               <textarea

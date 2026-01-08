@@ -25,6 +25,7 @@ export const translations = {
     settings: {
       title: '設定',
       twitter: 'X (Twitter) 投稿設定',
+      autoTweet: '記録時に投稿画面を開く',
       template: '投稿テンプレート',
       templatePlaceholder: '投稿内容を入力...',
       save: '保存',
@@ -70,6 +71,7 @@ export const translations = {
     settings: {
       title: 'Settings',
       twitter: 'X (Twitter) Settings',
+      autoTweet: 'Open post screen on record',
       template: 'Post Template',
       templatePlaceholder: 'Enter post content...',
       save: 'Save',

@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { toast } from "sonner";
+import { Twitter } from "lucide-react";
 import Navigation from "@/components/Navigation";
-import { BodyArea, BodySide, saveRecord } from "@/lib/storage";
+import { BodyArea, BodySide, saveRecord, getSettings, saveSettings } from "@/lib/storage";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { getBodyLabel } from "@/lib/i18n";
@@ -11,7 +12,19 @@ export default function Home() {
   const [selectedArea, setSelectedArea] = useState<BodyArea | null>(null);
   const [selectedSide, setSelectedSide] = useState<BodySide | null>(null);
   const [isRecording, setIsRecording] = useState(false);
+  const [autoTweet, setAutoTweet] = useState(false);
   const { t, language } = useLanguage();
+
+  useEffect(() => {
+    const settings = getSettings();
+    setAutoTweet(settings.autoTweet);
+  }, []);
+
+  const toggleAutoTweet = () => {
+    const newValue = !autoTweet;
+    setAutoTweet(newValue);
+    saveSettings({ autoTweet: newValue });
+  };
 
   const handleSelect = (area: BodyArea, side: BodySide) => {
     setSelectedArea(area);
@@ -35,6 +48,12 @@ export default function Home() {
       toast.success(t.home.recorded, {
         description: `${today} - ${getBodyLabel(language, selectedSide, selectedArea)}`,
       });
+
+      if (autoTweet) {
+        const settings = getSettings();
+        const text = encodeURIComponent(settings.tweetTemplate);
+        window.open(`https://x.com/intent/tweet?text=${text}`, '_blank');
+      }
 
       setSelectedArea(null);
       setSelectedSide(null);
@@ -76,9 +95,23 @@ export default function Home() {
       <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
       <div className="absolute bottom-[-10%] right-[-10%] w-[60%] h-[60%] bg-secondary/10 rounded-full blur-[120px] pointer-events-none" />
 
-      <header className="pt-12 px-6 mb-8 relative z-10">
-        <h1 className="text-3xl text-primary font-serif tracking-widest drop-shadow-lg">{t.app.title}</h1>
-        <p className="text-muted-foreground text-sm mt-2 font-light tracking-wide">{t.app.subtitle}</p>
+      <header className="pt-12 px-6 mb-8 relative z-10 flex justify-between items-start">
+        <div>
+          <h1 className="text-3xl text-primary font-serif tracking-widest drop-shadow-lg">{t.app.title}</h1>
+          <p className="text-muted-foreground text-sm mt-2 font-light tracking-wide">{t.app.subtitle}</p>
+        </div>
+        <button
+          onClick={toggleAutoTweet}
+          className={cn(
+            "p-3 rounded-full transition-all duration-300 border",
+            autoTweet 
+              ? "bg-primary/20 border-primary/50 text-primary shadow-[0_0_15px_rgba(var(--primary),0.3)]" 
+              : "bg-white/5 border-white/10 text-muted-foreground hover:bg-white/10"
+          )}
+          aria-label={t.settings.autoTweet}
+        >
+          <Twitter className="w-5 h-5" />
+        </button>
       </header>
 
       <main className="flex-1 flex flex-col items-center justify-center relative z-10 w-full max-w-md mx-auto">
