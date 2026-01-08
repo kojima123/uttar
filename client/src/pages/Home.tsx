@@ -15,6 +15,10 @@ export default function Home() {
   const [selectedSide, setSelectedSide] = useState<BodySide | null>(null);
   const [isRecording, setIsRecording] = useState(false);
   const [autoTweet, setAutoTweet] = useState(false);
+  const [isFeedCollapsed, setIsFeedCollapsed] = useState(() => {
+    const saved = localStorage.getItem('community_feed_collapsed');
+    return saved === 'true';
+  });
   const { t, language } = useLanguage();
   const addSharedRecord = trpc.shared.add.useMutation();
   const utils = trpc.useUtils();
@@ -135,14 +139,22 @@ export default function Home() {
         </button>
       </header>
 
-      <main className="flex-1 flex relative z-10 w-full max-w-6xl mx-auto px-4 gap-4 items-center">
-        {/* Shared Community Feed - Left Side */}
-        <div className="flex-shrink-0">
-          <SharedFeed />
-        </div>
+      <main className="flex-1 flex flex-col relative z-10 w-full mx-auto px-4">
+        {/* Header Section with Feed and Body Diagram */}
+        <div className={cn(
+          "flex gap-6 items-start justify-center w-full",
+          isFeedCollapsed && "justify-center"
+        )}>
+          {/* Shared Community Feed */}
+          <div className="flex-shrink-0">
+            <SharedFeed onCollapseChange={setIsFeedCollapsed} />
+          </div>
 
-        {/* Body Silhouette Section - Center */}
-        <div className="flex-1 flex items-center justify-center">
+          {/* Body Silhouette Section */}
+          <div className={cn(
+            "flex items-center justify-center",
+            isFeedCollapsed && "mx-auto"
+          )}>
         <div className="relative w-[300px] h-[550px] flex items-center justify-center">
           {/* Silhouette Image */}
           <img 
@@ -163,16 +175,15 @@ export default function Home() {
           {/* Thighs */}
           <BodyPart area="thigh" side="left" className="top-[50%] left-[28%] w-14 h-24" />
           <BodyPart area="thigh" side="right" className="top-[50%] right-[28%] w-14 h-24" />
-        </div>
 
-        <AnimatePresence>
-          {selectedArea && (
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: 20 }}
-              className="absolute bottom-4 left-0 right-0 px-6 max-w-md mx-auto"
-            >
+          <AnimatePresence>
+            {selectedArea && (
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 20 }}
+                className="absolute bottom-4 left-0 right-0 px-6 max-w-md mx-auto"
+              >
               <button
                 onClick={handleRecord}
                 disabled={isRecording}
@@ -185,9 +196,11 @@ export default function Home() {
                   <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]" />
                 )}
               </button>
-            </motion.div>
-          )}
-        </AnimatePresence>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+          </div>
         </div>
       </main>
 

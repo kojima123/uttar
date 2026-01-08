@@ -5,7 +5,7 @@ import { trpc } from '@/lib/trpc';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { getBodyLabel } from '@/lib/i18n';
 
-export default function SharedFeed() {
+export default function SharedFeed({ onCollapseChange }: { onCollapseChange?: (collapsed: boolean) => void }) {
   const [isCollapsed, setIsCollapsed] = useState(() => {
     const saved = localStorage.getItem('community_feed_collapsed');
     return saved === 'true';
@@ -15,6 +15,7 @@ export default function SharedFeed() {
     const newState = !isCollapsed;
     setIsCollapsed(newState);
     localStorage.setItem('community_feed_collapsed', String(newState));
+    onCollapseChange?.(newState);
   };
 
   const { t, language } = useLanguage();

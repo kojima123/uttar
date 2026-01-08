@@ -32,3 +32,8 @@
 - [x] Move Community Feed to the left side of body diagram
 - [x] Add minimize/expand toggle for Community Feed
 - [x] Save Community Feed collapsed state in localStorage
+
+## Layout Improvements
+- [x] Reorganize layout with header-style horizontal arrangement
+- [x] Center body diagram when community feed is minimized
+- [x] Improve visual balance between feed and body diagram
